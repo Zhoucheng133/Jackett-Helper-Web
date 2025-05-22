@@ -4,105 +4,10 @@
       <img src="/icon.svg" alt="" width="40px">
       <div class="head_label">Jackett Helper</div>
     </div>
-    <div class="menus" v-if="!(store().token.length==0) && !mobile">
-      <Button label="列表" variant="text" severity="secondary" @click="toRoute('/list')" :disabled="route.path=='/list'" icon="pi pi-list"/>
-      <Button label="搜索" variant="text"severity="secondary" @click="toRoute('/search')" :disabled="route.path=='/search'" icon="pi pi-search"/>
-    </div>
-    <div class="signout_area">
-      <Button icon="pi pi-sign-out" class="signout" variant="text" severity="danger" v-if="!(store().token.length==0) && !mobile" @click="logoutHandler($event)" />
-      <Button icon="pi pi-bars" class="signout" variant="text" v-if="!(store().token.length==0) && mobile" @click="menuHandler" />
-      <Menu ref="menu" id="overlay_menu" :model="menuItems" :popup="true" />
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import store from '../store';
-import { Button, Menu, useConfirm } from 'primevue';
-import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-
-const route=useRoute();
-const router=useRouter();
-
-const menuItems=ref([
-  {
-    label: '菜单',
-    items: [
-      {
-        label: '列表',
-        icon: 'pi pi-list',
-        command: ()=>toRoute('/list')
-      },
-      {
-        label: '搜索',
-        icon: 'pi pi-search',
-        command: ()=>toRoute('/search')
-      },
-    ]
-  },
-  {
-    items: [
-      {
-        label: '注销',
-        icon: 'pi pi-sign-out',
-        command: ()=>{
-          localStorage.clear();
-          window.location.href="/";
-        }
-      }
-    ]
-  }
-])
-
-const mobile=ref(false);
-
-const toRoute=(path: string)=>{
-  router.push(path);
-}
-
-const menu = ref();
-function menuHandler(event: any){
-  menu.value.toggle(event);
-}
-const confirm = useConfirm();
-
-function logoutHandler(event: any){
-  confirm.require({
-    target: event.currentTarget,
-    message: '你确定要注销吗?',
-    rejectProps: {
-      label: '取消',
-      severity: 'secondary',
-      outlined: true,
-      size: "small"
-    },
-    acceptProps: {
-      label: '注销',
-      size: "small",
-      severity: 'danger',
-    },
-    accept: () => {
-      localStorage.clear();
-      window.location.href="/";
-    },
-    reject: () => {}
-  });
-}
-
-function calWidth(){
-  if(window.innerWidth<800){
-    mobile.value=true;
-  }else{
-    mobile.value=false;
-  }
-}
-
-onMounted(()=>{
-  calWidth();
-  window.onresize=()=>calWidth();
-})
-
 </script>
 
 <style scoped>
