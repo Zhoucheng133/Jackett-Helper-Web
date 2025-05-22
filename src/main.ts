@@ -4,6 +4,8 @@ import App from './App.vue'
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
+import { createPinia } from 'pinia';
+const pinia = createPinia()
 
 const MyPreset = definePreset(Aura, {
   semantic: {
@@ -25,6 +27,7 @@ const MyPreset = definePreset(Aura, {
 
 
 const app=createApp(App)
+.use(pinia)
 app.use(PrimeVue, {
   theme: {
     preset: MyPreset
