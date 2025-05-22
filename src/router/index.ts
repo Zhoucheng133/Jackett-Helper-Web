@@ -4,9 +4,8 @@ const router=createRouter({
   history: createWebHistory(),
   routes: [
     {
-      name: "主页",
       path: "/",
-      component: ()=>import("../pages/home.vue")
+      redirect: "/list"
     },
     {
       name: "登录",
@@ -17,7 +16,12 @@ const router=createRouter({
       name: "注册",
       path: "/register",
       component: ()=>import("../pages/register.vue")
-    }
+    },
+    {
+      name: "列表",
+      path: "/list",
+      component: ()=>import("../pages/list.vue")
+    },
   ]
 })
 
