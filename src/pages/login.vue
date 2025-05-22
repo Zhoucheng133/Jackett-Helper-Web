@@ -32,7 +32,7 @@ const router=useRouter();
 const username=ref("");
 const password=ref("");
 
-document.title="AnimeHelper | 登录";
+document.title="JackettHelper | 登录";
 
 const loginHandler=async ()=>{
   const {data: response}=await axios.post(`${hostname}/api/login`, {
