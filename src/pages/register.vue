@@ -32,11 +32,12 @@ import TitleBar from '../components/title_bar.vue';
 const toast = useToast();
 const router=useRouter();
 
+
+document.title="JackettHelper | 注册";
+
 const username=ref("");
 const password=ref("");
 const rePassword=ref("");
-
-document.title="AnimeHelper | 注册"
 
 const registerHandler=async ()=>{
   if(username.value.length==0){
