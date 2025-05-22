@@ -1,1 +1,1 @@
-# Jackett Aria Web
+# Jackett Helper Web
