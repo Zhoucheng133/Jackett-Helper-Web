@@ -1,7 +1,7 @@
 <template>
     <div class="header">
       <div class="head_img">
-        <img src="/icon.svg" alt="" width="40px">
+        <img src="/icon.svg" alt="" width="40px" draggable="false">
         <div class="head_label">Jackett Helper</div>
       </div>
     </div>
