@@ -3,35 +3,33 @@
   <div class="body">
     <div class="tool_bar">
       <ButtonGroup>
-        <Button size="small">添加索引</Button>
+        <Button size="small" @click="addIndexer">添加索引</Button>
         <Button size="small" icon="pi pi-sliders-h" />
       </ButtonGroup>
     </div>
     <div class="add_info" v-if="store().indexers.length==0 && !loading">没有添加任何索引</div>
+    <AddIndexer ref="addIndexerRef"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import TitleBar from '../components/title_bar.vue';
+import AddIndexer from '../components/add_indexer.vue';
 import { Button, ButtonGroup } from 'primevue';
 import store from '../store';
-import axios from 'axios';
-import { hostname } from '../env/static';
 
 const loading=ref(true);
+const addIndexerRef=ref();
 
 onMounted(async ()=>{
-  const {data: response}=await axios.get(`${hostname}/api/list/get`, {
-    headers: {
-      token: store().token
-    }
-  })
+  await store().getIndexers();
   loading.value=false;
-  if(response.ok){
-    store().indexers=response.msg;
-  }
 })
+
+const addIndexer=()=>{
+  addIndexerRef.value.showAddIndexer();
+}
 
 </script>
 
