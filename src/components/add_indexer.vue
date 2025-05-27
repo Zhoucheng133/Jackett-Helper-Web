@@ -60,6 +60,8 @@ const addHandler=async ()=>{
     toast.add({ severity: 'success', summary: '添加成功', detail: "正在刷新列表", life: 3000 });
     store().getIndexers();
     visible.value=false;
+  }else{
+    toast.add({ severity: 'success', summary: '添加失败', detail: response.msg, life: 3000 });
   }
 }
 
