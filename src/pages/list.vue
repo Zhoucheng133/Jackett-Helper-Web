@@ -4,11 +4,12 @@
     <div class="tool_bar">
       <ButtonGroup>
         <Button size="small" @click="addIndexer">添加索引</Button>
-        <Button size="small" icon="pi pi-sliders-h" />
+        <Button size="small" icon="pi pi-sliders-h" @click="setAria" />
       </ButtonGroup>
     </div>
     <div class="add_info" v-if="store().indexers.length==0 && !loading">没有添加任何索引</div>
     <AddIndexer ref="addIndexerRef"/>
+    <AriaConfig ref="ariaConfigRef"/>
   </div>
 </template>
 
@@ -16,11 +17,13 @@
 import { onMounted, ref } from 'vue';
 import TitleBar from '../components/title_bar.vue';
 import AddIndexer from '../components/add_indexer.vue';
+import AriaConfig from '../components/aria_config.vue';
 import { Button, ButtonGroup } from 'primevue';
 import store from '../store';
 
 const loading=ref(true);
 const addIndexerRef=ref();
+const ariaConfigRef=ref();
 
 onMounted(async ()=>{
   await store().getIndexers();
@@ -29,6 +32,10 @@ onMounted(async ()=>{
 
 const addIndexer=()=>{
   addIndexerRef.value.showAddIndexer();
+}
+
+const setAria=()=>{
+  ariaConfigRef.value.showAriaConfig();
 }
 
 </script>
