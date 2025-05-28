@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+.body{
+  margin: 0 auto;
+  width: 1000px;
+  padding-bottom: 50px;
+}
+@media screen and (max-width: 1040px) {
+  .body{
+    width: calc(100vw - 40px);
+  }
+}
+.titlebar{
+  top: 0;
+  position: sticky;
+}
