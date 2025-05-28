@@ -2,10 +2,13 @@
   <TitleBar class="titlebar" />
   <div class="body">
     <div class="tool_bar">
-      <ButtonGroup>
-        <Button size="small" @click="addIndexer">添加索引</Button>
-        <Button size="small" icon="pi pi-sliders-h" @click="setAria" />
-      </ButtonGroup>
+      <Breadcrumb :home="home"></Breadcrumb>
+      <div style="margin-left: auto;">
+        <ButtonGroup>
+          <Button size="small" @click="addIndexer">添加索引</Button>
+          <Button size="small" icon="pi pi-sliders-h" @click="setAria" />
+        </ButtonGroup>
+      </div>
     </div>
     <div class="add_info" v-if="store().indexers.length==0 && !loading">没有添加任何索引</div>
     <DataTable :value="store().indexers" style="user-select: none;">
@@ -33,8 +36,15 @@ import { onMounted, ref } from 'vue';
 import TitleBar from '../components/title_bar.vue';
 import AddIndexer from '../components/add_indexer.vue';
 import AriaConfig from '../components/aria_config.vue';
-import { Button, ButtonGroup, DataTable, Column } from 'primevue';
+import { Button, ButtonGroup, DataTable, Column, Breadcrumb } from 'primevue';
 import store, { type IndexerItem } from '../store';
+import { useRouter } from 'vue-router';
+const router=useRouter();
+
+const home = ref({
+  icon: 'pi pi-home',
+  route: '/list'
+});
 
 const loading=ref(true);
 const addIndexerRef=ref();
@@ -54,7 +64,7 @@ const setAria=()=>{
 }
 
 const showAllDialog=(data: IndexerItem)=>{
-  // TODO
+  router.push(`/all/${data.id}`);
 }
 
 </script>
@@ -71,19 +81,6 @@ const showAllDialog=(data: IndexerItem)=>{
 .tool_bar{
   margin-top: 10px;
   display: flex;
-}
-.body{
-  margin: 0 auto;
-  width: 1000px;
-  padding-bottom: 50px;
-}
-@media screen and (max-width: 1040px) {
-  .body{
-    width: calc(100vw - 40px);
-  }
-}
-.titlebar{
-  top: 0;
-  position: sticky;
+  align-items: center;
 }
 </style>

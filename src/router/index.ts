@@ -22,6 +22,11 @@ const router=createRouter({
       path: "/list",
       component: ()=>import("../pages/list.vue")
     },
+    {
+      name: "所有",
+      path: "/all/:id",
+      component: ()=>import("../pages/all.vue")
+    }
   ]
 })
 
