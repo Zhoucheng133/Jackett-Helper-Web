@@ -2,7 +2,7 @@
   <TitleBar class="titlebar" />
   <div class="body">
     <div class="tool_bar">
-      <Breadcrumb :home="home"></Breadcrumb>
+      <Breadcrumb :home="home" />
       <div style="margin-left: auto;">
         <ButtonGroup>
           <Button size="small" @click="addIndexer">添加索引</Button>
@@ -82,5 +82,6 @@ const showAllDialog=(data: IndexerItem)=>{
   margin-top: 10px;
   display: flex;
   align-items: center;
+  height: 56px;
 }
 </style>

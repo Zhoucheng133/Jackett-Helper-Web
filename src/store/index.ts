@@ -10,9 +10,25 @@ export interface IndexerItem{
   key: string,
 }
 
+export interface HandlerItem{
+  title: string,
+  torrent: string,
+  magnet: string,
+  pubDate: string,
+}
+
 export default defineStore("index", () => {
   const token=ref("");
   const indexers=ref<IndexerItem[]>([]);
+
+  async function allFromId(id: string){
+    const {data: response}=await axios.get(`${hostname}/api/handler/all/${id}`, {
+      headers: {
+        token: token.value
+      }
+    })
+    return response;
+  }
 
   async function getIndexers(){
     const {data: response}=await axios.get(`${hostname}/api/list/get`, {
@@ -28,6 +44,7 @@ export default defineStore("index", () => {
   return {
     token,
     indexers,
-    getIndexers
+    getIndexers,
+    allFromId,
   };
 })
