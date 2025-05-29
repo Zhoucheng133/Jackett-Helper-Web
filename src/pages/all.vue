@@ -37,7 +37,7 @@
       <Column header="操作" style="min-width: 100px;">
         <template #body="slotProps">
           <ButtonGroup>
-            <Button size="small" severity="secondary" icon="pi pi-clipboard" style="font-size: 12px;"/>
+            <Button size="small" severity="secondary" icon="pi pi-clipboard" style="font-size: 12px;" @click="copyLink(slotProps.data.magnet)"/>
             <Button size="small" severity="secondary" icon="pi pi-download" style="font-size: 12px;"/>
           </ButtonGroup>
         </template>
@@ -54,6 +54,8 @@ import { onMounted, ref } from 'vue';
 import type { HandlerItem } from '../store';
 import dayjs from 'dayjs';
 import store from '../store';
+import useClipboard from 'vue-clipboard3';
+const { toClipboard } = useClipboard();
 const toast = useToast();
 const route=useRoute();
 const query=ref(route.params)
@@ -62,6 +64,11 @@ const id=query.value.id as string;
 const list=ref<HandlerItem[]>([]);
 
 const name=ref("");
+
+const copyLink=(url: string)=>{
+  toClipboard(url);
+  toast.add({ severity: 'success', summary: '复制成功', detail: '已复制磁力链接', life: 3000 });
+}
 
 onMounted(async ()=>{
   const response=await store().allFromId(id);
