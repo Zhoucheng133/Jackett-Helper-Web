@@ -67,7 +67,7 @@ const delHandler=(event: any, id: string)=>{
   confirm.require({
     target: event.currentTarget,
     position: "bottomleft",
-    message: '你确定要删除这项吗',
+    message: '你确定要删除这个索引吗',
     rejectProps: {
       label: '取消',
       severity: 'secondary',
