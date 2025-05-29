@@ -34,7 +34,13 @@
           </div>
         </template>
       </Column>
-      <Column header="操作" style="min-width: 150px;">
+      <Column header="操作" style="min-width: 100px;">
+        <template #body="slotProps">
+          <ButtonGroup>
+            <Button size="small" severity="secondary" icon="pi pi-clipboard" style="font-size: 12px;"/>
+            <Button size="small" severity="secondary" icon="pi pi-download" style="font-size: 12px;"/>
+          </ButtonGroup>
+        </template>
       </Column>
     </DataTable>
   </div>
@@ -43,7 +49,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import TitleBar from '../components/title_bar.vue';
-import { Breadcrumb, useToast, DataTable, Column } from 'primevue';
+import { Breadcrumb, useToast, DataTable, Column, ButtonGroup, Button } from 'primevue';
 import { onMounted, ref } from 'vue';
 import type { HandlerItem } from '../store';
 import dayjs from 'dayjs';
