@@ -17,9 +17,18 @@ export interface HandlerItem{
   pubDate: string,
 }
 
+export interface AriaConfig{
+  url: string,
+  secret: string,
+}
+
 export default defineStore("index", () => {
   const token=ref("");
   const indexers=ref<IndexerItem[]>([]);
+  const ariaConfig=ref<AriaConfig>({
+    url: "",
+    secret: ""
+  });
 
   async function allFromId(id: string){
     const {data: response}=await axios.get(`${hostname}/api/handler/all/${id}`, {
@@ -41,6 +50,20 @@ export default defineStore("index", () => {
     }
   }
 
+  async function getAriaConfig(){
+    const {data: response}=await axios.get(`${hostname}/api/aria/get`, {
+      headers: {
+        token: token.value
+      }
+    })
+    if(response.ok && response.msg!=null){
+      ariaConfig.value={
+        url: response.msg.url,
+        secret: response.msg.secret,
+      }
+    }
+  }
+
   function formatBytes(bytes: number): string {
     if (bytes === 0) return '0 B';
   
@@ -57,6 +80,7 @@ export default defineStore("index", () => {
     indexers,
     getIndexers,
     allFromId,
-    formatBytes
+    formatBytes,
+    getAriaConfig
   };
 })
