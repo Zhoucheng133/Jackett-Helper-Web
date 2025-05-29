@@ -16,15 +16,37 @@
         </template>
       </Breadcrumb>
     </div>
+    <DataTable :value="list" size="small" stripedRows>
+      <Column field="title" header="标题">
+        <template #body="slotProps">
+          <div class="title_area">
+            <div class="title text-sm">
+              {{ slotProps.data.title }}
+            </div>
+            <div class="info_area">
+              <div class="date select-none text-gray-400 text-xs">
+                {{ dayjs(slotProps.data.time).format("YYYY-MM-DD HH:mm") }}
+              </div>
+              <div class="size select-none text-gray-400 text-xs ml-8">
+                {{ store().formatBytes(slotProps.data.size) }}
+              </div>
+            </div>
+          </div>
+        </template>
+      </Column>
+      <Column header="操作" style="min-width: 150px;">
+      </Column>
+    </DataTable>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import TitleBar from '../components/title_bar.vue';
-import { Breadcrumb, useToast } from 'primevue';
+import { Breadcrumb, useToast, DataTable, Column } from 'primevue';
 import { onMounted, ref } from 'vue';
 import type { HandlerItem } from '../store';
+import dayjs from 'dayjs';
 import store from '../store';
 const toast = useToast();
 const route=useRoute();
@@ -33,10 +55,16 @@ const id=query.value.id as string;
 
 const list=ref<HandlerItem[]>([]);
 
+const name=ref("");
+
 onMounted(async ()=>{
   const response=await store().allFromId(id);
   if(response.ok){
-    list.value=response.msg;
+    list.value=response.msg.data;
+    name.value=response.msg.name;
+    items.value=[{
+      label: `全部: ${name.value}`
+    }]
   }else{
     toast.add({ severity: 'error', summary: '获取失败', detail: response.msg, life: 3000 });
   }
@@ -47,13 +75,27 @@ const home = ref({
   route: '/list'
 });
 const items=ref([
-  { label: '全部' },
+  { label: "全部" },
 ])
 
 
 </script>
 
 <style scoped>
+.info_area{
+  display: flex;
+}
+.title{
+  width: 800px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.title_area{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .tool_bar{
   margin-top: 10px;
   display: flex;

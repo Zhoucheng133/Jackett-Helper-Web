@@ -1,5 +1,8 @@
 @import "tailwindcss";
-
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
 .body{
   margin: 0 auto;
   width: 1000px;
@@ -13,4 +16,7 @@
 .titlebar{
   top: 0;
   position: sticky;
+}
+td{
+  padding: 10px !important;
 }
