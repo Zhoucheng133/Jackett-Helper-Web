@@ -1,6 +1,7 @@
 <template>
   <router-view></router-view>
   <Toast />
+  <ConfirmPopup />
 </template>
 
 <script setup lang="ts">
@@ -9,7 +10,7 @@ import { onMounted, ref } from 'vue';
 import { hostname } from './env/static';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { useToast } from 'primevue';
+import { useToast, ConfirmPopup } from 'primevue';
 import store from './store';
 
 const router=useRouter();

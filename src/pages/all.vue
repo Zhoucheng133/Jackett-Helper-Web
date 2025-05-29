@@ -28,7 +28,7 @@
                 {{ dayjs(slotProps.data.time).format("YYYY-MM-DD HH:mm") }}
               </div>
               <div class="size select-none text-gray-400 text-xs ml-8">
-                {{ store().formatBytes(slotProps.data.size) }}
+                {{ formatBytes(slotProps.data.size) }}
               </div>
             </div>
           </div>
@@ -55,6 +55,7 @@ import type { HandlerItem } from '../store';
 import dayjs from 'dayjs';
 import store from '../store';
 import useClipboard from 'vue-clipboard3';
+import {formatBytes} from "../store/static";
 const { toClipboard } = useClipboard();
 const toast = useToast();
 const route=useRoute();

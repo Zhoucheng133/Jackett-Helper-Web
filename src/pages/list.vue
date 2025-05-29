@@ -20,10 +20,11 @@
       <Column field="name" header="名称"></Column>
       <Column header="操作">
         <template #body="slotProps">
-          <div style="width: 100px;">
+          <div style="width: 120px;">
             <ButtonGroup>
               <Button size="small" severity="secondary" @click="showAllDialog(slotProps.data)">全部</Button>
               <Button size="small" severity="secondary" icon="pi pi-search" />
+              <Button size="small" severity="secondary" icon="pi pi-trash" @click="delHandler($event, slotProps.data.id)" />
             </ButtonGroup>
           </div>
         </template>
@@ -41,10 +42,12 @@ import { onMounted, ref } from 'vue';
 import TitleBar from '../components/title_bar.vue';
 import AddIndexer from '../components/add_indexer.vue';
 import AriaConfig from '../components/aria_config.vue';
-import { Button, ButtonGroup, DataTable, Column, Breadcrumb } from 'primevue';
+import { Button, ButtonGroup, DataTable, Column, Breadcrumb, useToast, useConfirm } from 'primevue';
 import store, { type IndexerItem } from '../store';
 import { useRouter } from 'vue-router';
 const router=useRouter();
+const toast=useToast();
+const confirm = useConfirm();
 
 const home = ref({
   icon: 'pi pi-home',
@@ -59,6 +62,29 @@ onMounted(async ()=>{
   await store().getIndexers();
   loading.value=false;
 })
+
+const delHandler=(event: any, id: string)=>{
+  confirm.require({
+    target: event.currentTarget,
+    position: "bottomleft",
+    message: '你确定要删除这项吗',
+    rejectProps: {
+      label: '取消',
+      severity: 'secondary',
+      outlined: true,
+      size: "small"
+    },
+    acceptProps: {
+      label: '删除',
+      severity: "danger",
+      size: "small"
+    },
+    accept: ()=>{
+      store().delListId(id, toast);
+    },
+    reject: () => {}
+  });
+}
 
 const addIndexer=()=>{
   addIndexerRef.value.showAddIndexer();
