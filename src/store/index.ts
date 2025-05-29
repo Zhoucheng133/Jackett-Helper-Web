@@ -64,15 +64,18 @@ export default defineStore("index", () => {
     }
   }
 
-  function formatBytes(bytes: number): string {
-    if (bytes === 0) return '0 B';
-  
-    const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    const value = bytes / Math.pow(1024, i);
-    const formatted = parseFloat(value.toFixed(2)).toString();
-  
-    return `${formatted} ${sizes[i]}`;
+  async function delListId(id: string, toast: any){
+    const {data: response}=await axios.delete(`${hostname}/api/list/del/${id}`, {
+      headers: {
+        token: token.value
+      }
+    })
+    if(response.ok){
+      toast.add({ severity: 'success', summary: '删除成功', detail: "正在刷新列表", life: 3000 });
+      getIndexers();
+    }else{
+      toast.add({ severity: 'danger', summary: '删除失败', detail: response.msg, life: 3000 });
+    }
   }
 
   return {
@@ -80,8 +83,8 @@ export default defineStore("index", () => {
     indexers,
     getIndexers,
     allFromId,
-    formatBytes,
     getAriaConfig,
-    ariaConfig
+    ariaConfig,
+    delListId
   };
 })
