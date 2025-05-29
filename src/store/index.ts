@@ -81,6 +81,7 @@ export default defineStore("index", () => {
     getIndexers,
     allFromId,
     formatBytes,
-    getAriaConfig
+    getAriaConfig,
+    ariaConfig
   };
 })

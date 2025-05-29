@@ -38,7 +38,7 @@
         <template #body="slotProps">
           <ButtonGroup>
             <Button size="small" severity="secondary" icon="pi pi-clipboard" style="font-size: 12px;" @click="copyLink(slotProps.data.magnet)"/>
-            <Button size="small" severity="secondary" icon="pi pi-download" style="font-size: 12px;"/>
+            <Button size="small" severity="secondary" icon="pi pi-download" style="font-size: 12px;" @click="download(slotProps.data.magnet)"/>
           </ButtonGroup>
         </template>
       </Column>
@@ -68,6 +68,15 @@ const name=ref("");
 const copyLink=(url: string)=>{
   toClipboard(url);
   toast.add({ severity: 'success', summary: '复制成功', detail: '已复制磁力链接', life: 3000 });
+}
+
+const download=(url: string)=>{
+  if(store().ariaConfig.url.length==0){
+    toast.add({ severity: 'error', summary: '无法下载', detail: "没有配置Aria", life: 3000 });
+  }
+  // TODO 下载链接
+  console.log(url);
+  
 }
 
 onMounted(async ()=>{
