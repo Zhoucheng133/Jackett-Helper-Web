@@ -11,7 +11,12 @@
       </div>
     </div>
     <div class="add_info" v-if="store().indexers.length==0 && !loading">没有添加任何索引</div>
-    <DataTable :value="store().indexers" style="user-select: none;">
+    <div class="add_info" v-if="store().ariaConfig.url.length==0 && !loading">
+      没有配置Aria，点击
+      <i class="pi pi-sliders-h ml-2 mr-2"></i>
+      进行配置
+    </div>
+    <DataTable :value="store().indexers" style="user-select: none;" v-if="store().indexers.length!=0">
       <Column field="name" header="名称"></Column>
       <Column header="操作">
         <template #body="slotProps">
@@ -74,8 +79,8 @@ const showAllDialog=(data: IndexerItem)=>{
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
-  color: lightgray;
+  align-items: center;
+  color: orange;
   user-select: none;
 }
 .tool_bar{

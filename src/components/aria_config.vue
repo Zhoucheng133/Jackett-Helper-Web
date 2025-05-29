@@ -29,6 +29,8 @@ const visible=ref(false);
 
 const showAriaConfig=()=>{
   visible.value=true;
+  url.value=store().ariaConfig.url;
+  key.value=store().ariaConfig.secret;
 }
 
 const setHandler=async ()=>{
@@ -48,6 +50,10 @@ const setHandler=async ()=>{
   if(response.ok){
     toast.add({ severity: 'success', summary: '配置成功', detail: "现在可以通过Aria下载", life: 3000 });
     visible.value=false;
+    store().ariaConfig={
+      url: url.value,
+      secret: key.value,
+    }
   }else{
     toast.add({ severity: 'success', summary: '配置失败', detail: response.msg, life: 3000 });
   }
