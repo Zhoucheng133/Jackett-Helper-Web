@@ -21,8 +21,8 @@
       <Column header="操作" style="width: 180px;">
         <template #body="slotProps">
           <ButtonGroup>
-            <Button size="small" severity="secondary" @click="showAllDialog(slotProps.data)">全部</Button>
-            <Button size="small" severity="secondary" icon="pi pi-search" />
+            <Button size="small" severity="secondary" @click="toAll(slotProps.data)">全部</Button>
+            <Button size="small" severity="secondary" icon="pi pi-search" @click="toSearch(slotProps.data)" />
             <Button size="small" severity="secondary" icon="pi pi-pen-to-square" @click="editHandler(slotProps.data.id, slotProps.data.name, slotProps.data.url, slotProps.data.key)" />
             <Button size="small" severity="secondary" icon="pi pi-trash" @click="delHandler($event, slotProps.data.id)" />
           </ButtonGroup>
@@ -98,8 +98,12 @@ const setAria=()=>{
   ariaConfigRef.value.showAriaConfig();
 }
 
-const showAllDialog=(data: IndexerItem)=>{
+const toAll=(data: IndexerItem)=>{
   router.push(`/all/${data.id}`);
+}
+
+const toSearch=(data: IndexerItem)=>{
+  router.push(`/search/${data.id}`);
 }
 
 </script>

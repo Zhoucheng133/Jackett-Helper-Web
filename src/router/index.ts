@@ -26,6 +26,11 @@ const router=createRouter({
       name: "所有",
       path: "/all/:id",
       component: ()=>import("../pages/all.vue")
+    },
+    {
+      name: "搜索",
+      path: "/search/:id",
+      component: ()=>import("../pages/search.vue")
     }
   ]
 })
