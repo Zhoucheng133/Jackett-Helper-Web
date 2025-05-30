@@ -42,11 +42,10 @@ import TitleBar from '../components/title_bar.vue';
 import AddIndexer from '../components/add_indexer.vue';
 import AriaConfig from '../components/aria_config.vue';
 import EditIndexer from '../components/edit_indexer.vue';
-import { Button, ButtonGroup, DataTable, Column, Breadcrumb, useToast, useConfirm } from 'primevue';
+import { Button, ButtonGroup, DataTable, Column, Breadcrumb, useConfirm } from 'primevue';
 import store, { type IndexerItem } from '../store';
 import { useRouter } from 'vue-router';
 const router=useRouter();
-const toast=useToast();
 const confirm = useConfirm();
 
 const home = ref({
@@ -81,7 +80,7 @@ const delHandler=(event: any, id: string)=>{
       size: "small"
     },
     accept: ()=>{
-      store().delListId(id, toast);
+      store().delListId(id);
     },
     reject: () => {}
   });

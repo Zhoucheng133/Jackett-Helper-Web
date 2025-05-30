@@ -67,7 +67,7 @@ export default defineStore("index", () => {
     }
   }
 
-  async function delListId(id: string, toast: any){
+  async function delListId(id: string){
     const {data: response}=await axios.delete(`${hostname}/api/list/del/${id}`, {
       headers: {
         token: token.value
