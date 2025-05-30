@@ -18,13 +18,13 @@
     </div>
     <div class="searchInput">
       <InputGroup style="width: 300px;">
-        <InputText placeholder="输入搜索内容" />
+        <InputText placeholder="输入搜索内容" v-model="searchKey" />
         <InputGroupAddon>
-          <Button icon="pi pi-search" severity="secondary" variant="text"/>
+          <Button icon="pi pi-search" severity="secondary" variant="text" @click="searchHandler"/>
         </InputGroupAddon>
       </InputGroup>
     </div>
-    <DataTable :value="list" size="small" stripedRows>
+    <DataTable :value="list" size="small" stripedRows v-if="list.length!=0">
       <Column field="title" header="标题">
         <template #body="slotProps">
           <div class="title_area">
@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { Breadcrumb, useToast, InputText, Button, InputGroup, InputGroupAddon, useConfirm } from 'primevue';
+import { Breadcrumb, useToast, InputText, Button, InputGroup, InputGroupAddon, useConfirm, Column, DataTable, ButtonGroup } from 'primevue';
 import store, { type HandlerItem } from '../store';
 import TitleBar from '../components/title_bar.vue';
 import axios from 'axios';
@@ -75,6 +75,7 @@ const list=ref<HandlerItem[]>([]);
 
 const toast=useToast();
 
+const searchKey=ref("");
 const name=ref("");
 const copyLink=(url: string)=>{
   toClipboard(url);
@@ -131,9 +132,39 @@ const items=ref([
   { label: `从" "搜索` },
 ])
 
+const searchHandler=async ()=>{
+  const {data: response}=await axios.get(`${hostname}/api/handler/search/${id}`, {
+    params: {
+      q: searchKey.value
+    },
+    headers: {
+      token: store().token
+    }
+  })
+  if(response.ok){
+    list.value=response.msg.data;
+  }else{
+    toast.add({ severity: 'error', summary: '搜索失败', detail: response.msg, life: 3000 });
+  }
+}
+
 </script>
 
 <style scoped>
+.info_area{
+  display: flex;
+}
+.title{
+  width: 800px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.title_area{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .searchInput{
   width: 100%;
   display: flex;
