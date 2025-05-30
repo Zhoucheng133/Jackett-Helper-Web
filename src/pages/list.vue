@@ -18,15 +18,14 @@
     </div>
     <DataTable :value="store().indexers" style="user-select: none;" v-if="store().indexers.length!=0">
       <Column field="name" header="名称"></Column>
-      <Column header="操作">
+      <Column header="操作" style="width: 180px;">
         <template #body="slotProps">
-          <div style="width: 120px;">
-            <ButtonGroup>
-              <Button size="small" severity="secondary" @click="showAllDialog(slotProps.data)">全部</Button>
-              <Button size="small" severity="secondary" icon="pi pi-search" />
-              <Button size="small" severity="secondary" icon="pi pi-trash" @click="delHandler($event, slotProps.data.id)" />
-            </ButtonGroup>
-          </div>
+          <ButtonGroup>
+            <Button size="small" severity="secondary" @click="showAllDialog(slotProps.data)">全部</Button>
+            <Button size="small" severity="secondary" icon="pi pi-search" />
+            <Button size="small" severity="secondary" icon="pi pi-pen-to-square" />
+            <Button size="small" severity="secondary" icon="pi pi-trash" @click="delHandler($event, slotProps.data.id)" />
+          </ButtonGroup>
         </template>
       </Column>
       <Column field="url" header="链接"></Column>
