@@ -23,14 +23,14 @@
           <ButtonGroup>
             <Button size="small" severity="secondary" @click="showAllDialog(slotProps.data)">全部</Button>
             <Button size="small" severity="secondary" icon="pi pi-search" />
-            <Button size="small" severity="secondary" icon="pi pi-pen-to-square" />
+            <Button size="small" severity="secondary" icon="pi pi-pen-to-square" @click="editHandler(slotProps.data.id, slotProps.data.name, slotProps.data.url, slotProps.data.key)" />
             <Button size="small" severity="secondary" icon="pi pi-trash" @click="delHandler($event, slotProps.data.id)" />
           </ButtonGroup>
         </template>
       </Column>
       <Column field="url" header="链接"></Column>
     </DataTable>
-
+    <EditIndexer ref="editIndexerRef" />
     <AddIndexer ref="addIndexerRef"/>
     <AriaConfig ref="ariaConfigRef"/>
   </div>
@@ -41,6 +41,7 @@ import { onMounted, ref } from 'vue';
 import TitleBar from '../components/title_bar.vue';
 import AddIndexer from '../components/add_indexer.vue';
 import AriaConfig from '../components/aria_config.vue';
+import EditIndexer from '../components/edit_indexer.vue';
 import { Button, ButtonGroup, DataTable, Column, Breadcrumb, useToast, useConfirm } from 'primevue';
 import store, { type IndexerItem } from '../store';
 import { useRouter } from 'vue-router';
@@ -56,6 +57,7 @@ const home = ref({
 const loading=ref(true);
 const addIndexerRef=ref();
 const ariaConfigRef=ref();
+const editIndexerRef=ref();
 
 onMounted(async ()=>{
   await store().getIndexers();
@@ -83,6 +85,10 @@ const delHandler=(event: any, id: string)=>{
     },
     reject: () => {}
   });
+}
+
+const editHandler=(id: string, name: string, url: string, key: string)=>{
+  editIndexerRef.value.showEdit(id, name, url, key);
 }
 
 const addIndexer=()=>{
