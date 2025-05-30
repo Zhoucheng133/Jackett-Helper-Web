@@ -55,7 +55,7 @@ import type { HandlerItem } from '../store';
 import dayjs from 'dayjs';
 import store from '../store';
 import useClipboard from 'vue-clipboard3';
-import {formatBytes} from "../store/static";
+import { formatBytes } from "../store/static";
 const { toClipboard } = useClipboard();
 const toast = useToast();
 const route=useRoute();
