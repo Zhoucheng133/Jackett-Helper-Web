@@ -20,7 +20,7 @@
       <InputGroup style="width: 300px;">
         <InputText placeholder="输入搜索内容" v-model="searchKey" />
         <InputGroupAddon>
-          <Button icon="pi pi-search" severity="secondary" variant="text" @click="searchHandler"/>
+          <Button icon="pi pi-search" severity="secondary" variant="text" @click="searchHandler" :disabled="loading"/>
         </InputGroupAddon>
       </InputGroup>
     </div>
@@ -51,6 +51,11 @@
         </template>
       </Column>
     </DataTable>
+
+    <div class="loading" v-if="loading">
+      <i class="pi pi-spinner" style="margin-right: 10px;"></i>
+      <div>加载中...</div>
+    </div>
   </div>
 </template>
 
@@ -74,6 +79,8 @@ const id=query.value.id as string;
 const list=ref<HandlerItem[]>([]);
 
 const toast=useToast();
+
+const loading=ref(false);
 
 const searchKey=ref("");
 const name=ref("");
@@ -133,6 +140,7 @@ const items=ref([
 ])
 
 const searchHandler=async ()=>{
+  loading.value=true;
   const {data: response}=await axios.get(`${hostname}/api/handler/search/${id}`, {
     params: {
       q: searchKey.value
@@ -146,11 +154,31 @@ const searchHandler=async ()=>{
   }else{
     toast.add({ severity: 'error', summary: '搜索失败', detail: response.msg, life: 3000 });
   }
+  loading.value=false;
 }
 
 </script>
 
 <style scoped>
+.pi-spinner{
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+
+.loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 240px);
+}
 .info_area{
   display: flex;
 }

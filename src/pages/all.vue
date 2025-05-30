@@ -16,7 +16,7 @@
         </template>
       </Breadcrumb>
     </div>
-    <DataTable :value="list" size="small" stripedRows>
+    <DataTable :value="list" size="small" stripedRows v-if="!loading">
       <Column field="title" header="标题">
         <template #body="slotProps">
           <div class="title_area">
@@ -43,6 +43,11 @@
         </template>
       </Column>
     </DataTable>
+
+    <div class="loading" v-else>
+      <i class="pi pi-spinner" style="margin-right: 10px;"></i>
+      <div>加载中...</div>
+    </div>
   </div>
 </template>
 
@@ -66,6 +71,8 @@ const confirm = useConfirm();
 const list=ref<HandlerItem[]>([]);
 
 const name=ref("");
+
+const loading=ref(true);
 
 const copyLink=(url: string)=>{
   toClipboard(url);
@@ -109,6 +116,7 @@ onMounted(async ()=>{
   }else{
     toast.add({ severity: 'error', summary: '获取失败', detail: response.msg, life: 3000 });
   }
+  loading.value=false;
 })
 
 const home = ref({
@@ -123,6 +131,26 @@ const items=ref([
 </script>
 
 <style scoped>
+
+.pi-spinner{
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+
+.loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 200px);
+}
 .info_area{
   display: flex;
 }
