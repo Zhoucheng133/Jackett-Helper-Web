@@ -36,7 +36,6 @@ onMounted(async ()=>{
       loading.value=false;
       if(response.ok){
         store().token=token;
-        store().getAriaConfig();
       }else{
         toast.add({ severity: 'error', summary: '身份验证失败', detail: '令牌过期或无效', life: 3000 });
         router.replace("/login")

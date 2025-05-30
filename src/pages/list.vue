@@ -60,6 +60,7 @@ const editIndexerRef=ref();
 
 onMounted(async ()=>{
   await store().getIndexers();
+  await store().getAriaConfig();
   loading.value=false;
 })
 
