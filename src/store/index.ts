@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { hostname } from "../env/static";
 import axios from "axios";
+import { useToast } from "primevue";
 
 export interface IndexerItem{
   name: string,
@@ -25,6 +26,8 @@ export interface AriaConfig{
 export default defineStore("index", () => {
   const token=ref("");
   const indexers=ref<IndexerItem[]>([]);
+  const toast=useToast();
+
   const ariaConfig=ref<AriaConfig>({
     url: "",
     secret: ""
@@ -78,6 +81,22 @@ export default defineStore("index", () => {
     }
   }
 
+  async function download(url: string){
+    const {data: response}=await axios.post(`${hostname}/api/aria/download`, {
+      url: url
+    }, {
+      headers: {
+        token: token.value
+      }
+    })
+    if(response.ok){
+      toast.add({ severity: 'success', summary: '下载成功', detail: "已经添加到Aria任务列表", life: 3000 });
+      getIndexers();
+    }else{
+      toast.add({ severity: 'danger', summary: '下载失败', detail: response.msg, life: 3000 });
+    } 
+  }
+
   return {
     token,
     indexers,
@@ -85,6 +104,7 @@ export default defineStore("index", () => {
     allFromId,
     getAriaConfig,
     ariaConfig,
-    delListId
+    delListId,
+    download
   };
 })

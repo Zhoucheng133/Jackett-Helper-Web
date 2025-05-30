@@ -38,7 +38,7 @@
         <template #body="slotProps">
           <ButtonGroup>
             <Button size="small" severity="secondary" icon="pi pi-clipboard" style="font-size: 12px;" @click="copyLink(slotProps.data.magnet)"/>
-            <Button size="small" severity="secondary" icon="pi pi-download" style="font-size: 12px;" @click="download(slotProps.data.magnet)"/>
+            <Button size="small" severity="secondary" icon="pi pi-download" style="font-size: 12px;" @click="download($event, slotProps.data.magnet)"/>
           </ButtonGroup>
         </template>
       </Column>
@@ -49,7 +49,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import TitleBar from '../components/title_bar.vue';
-import { Breadcrumb, useToast, DataTable, Column, ButtonGroup, Button } from 'primevue';
+import { Breadcrumb, useToast, DataTable, Column, ButtonGroup, Button, useConfirm } from 'primevue';
 import { onMounted, ref } from 'vue';
 import type { HandlerItem } from '../store';
 import dayjs from 'dayjs';
@@ -61,6 +61,7 @@ const toast = useToast();
 const route=useRoute();
 const query=ref(route.params)
 const id=query.value.id as string;
+const confirm = useConfirm();
 
 const list=ref<HandlerItem[]>([]);
 
@@ -71,13 +72,30 @@ const copyLink=(url: string)=>{
   toast.add({ severity: 'success', summary: '复制成功', detail: '已复制磁力链接', life: 3000 });
 }
 
-const download=(url: string)=>{
+const download=(event: any, url: string)=>{
   if(store().ariaConfig.url.length==0){
     toast.add({ severity: 'error', summary: '无法下载', detail: "没有配置Aria", life: 3000 });
   }
-  // TODO 下载链接
-  console.log(url);
-  
+
+  confirm.require({
+    target: event.currentTarget,
+    position: "bottomleft",
+    message: '你确定要下载吗',
+    rejectProps: {
+      label: '取消',
+      severity: 'secondary',
+      outlined: true,
+      size: "small"
+    },
+    acceptProps: {
+      label: '下载',
+      size: "small"
+    },
+    accept: ()=>{
+      store().download(url);
+    },
+    reject: () => {}
+  });
 }
 
 onMounted(async ()=>{
